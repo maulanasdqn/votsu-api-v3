@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "users" ALTER COLUMN "fullname" DROP NOT NULL,
+ALTER COLUMN "student_id" DROP NOT NULL,
+ALTER COLUMN "role" DROP NOT NULL;
