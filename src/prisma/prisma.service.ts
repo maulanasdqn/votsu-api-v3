@@ -16,17 +16,10 @@ export class PrismaService
     });
   }
   async onModuleInit() {
-    try {
-      await this.$connect();
-    } catch (err) {
-      throw new Error('Method not implemented.');
-    }
+    await this.$connect();
   }
 
   async onModuleDestroy() {
-    try {
-      await this.$disconnect();
-    } catch (err) {}
-    throw new Error('Method not implemented.');
+    await this.$disconnect();
   }
 }
