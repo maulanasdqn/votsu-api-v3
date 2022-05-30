@@ -10,3 +10,10 @@ services:
       POSTGRES_DB: votsu-db
     ports:
       - '5432:5432'
+
+  votsu-api:
+    build:
+      context: .
+      dockerfile: 'Dockerfile'
+    ports:
+      - '5000:5000'
