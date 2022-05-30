@@ -10,7 +10,7 @@ export class PrismaService
     super({
       datasources: {
         db: {
-          url: 'postgresql://admin:admin@localhost:5432/votsu-db?schema=public',
+          url: process.env.DATABASE_URL,
         },
       },
     });
