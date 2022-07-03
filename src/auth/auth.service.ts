@@ -38,7 +38,7 @@ export class AuthService {
         hash,
         student_id: dto.student_id,
         grade: dto.grade,
-        role_id: dto.role_id,
+        role_id: 1,
         departement: dto.departement,
       },
     });

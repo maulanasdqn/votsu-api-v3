@@ -9,6 +9,8 @@ export class AuthDto {
   @IsString()
   password: string;
 
+  id: number;
+
   fullname: string;
 
   student_id: string;

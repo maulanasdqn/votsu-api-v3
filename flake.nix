@@ -10,7 +10,8 @@
       devShell = pkgs.mkShell {
         nativeBuildInputs = [ pkgs.bashInteractive ];
         buildInputs = with pkgs; [
-          pkgs.nodejs-16_x
+          nodejs-16_x
+          nodePackages.yarn
           nodePackages.prisma
         ];
         shellHook = with pkgs; ''
@@ -19,6 +20,9 @@
           export PRISMA_QUERY_ENGINE_LIBRARY="${prisma-engines}/lib/libquery_engine.node"
           export PRISMA_INTROSPECTION_ENGINE_BINARY="${prisma-engines}/bin/introspection-engine"
           export PRISMA_FMT_BINARY="${prisma-engines}/bin/prisma-fmt"
+          export PATH=~/.npm-packages/bin:$PATH
+          export NODE_PATH=~/.npm-packages/lib/node_modules
+          echo "DATABASE_URL="postgresql://youruser:yourpass@yourhost:yourport/yourdb-db?schema=public" >> .env
         '';
       };
     });
