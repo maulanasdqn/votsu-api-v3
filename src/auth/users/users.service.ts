@@ -22,6 +22,16 @@ export class UsersService {
     return user;
   }
 
+  async getUserByEmail(email: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    if (!user) throw new ForbiddenException('Access Denied.');
+    return user;
+  }
+
   async updateUserById(dto: UsersDto, id: number) {
     const user = await this.prisma.user.update({
       where: {
