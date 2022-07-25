@@ -39,6 +39,7 @@ export class AuthService {
         student_id: dto.student_id,
         grade: dto.grade,
         role_id: 1,
+        is_chosen: false,
         departement: dto.departement,
       },
     });

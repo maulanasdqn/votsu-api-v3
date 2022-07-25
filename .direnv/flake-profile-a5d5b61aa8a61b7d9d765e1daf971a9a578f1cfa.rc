@@ -11,8 +11,8 @@ CONFIG_SHELL='/nix/store/j9rc786ylq8cid4zgcn6idknilkbd4ax-bash-5.1-p16/bin/bash'
 export CONFIG_SHELL
 CXX='g++'
 export CXX
-EPOCHREALTIME='1656863984.032905'
-EPOCHSECONDS='1656863984'
+EPOCHREALTIME='1658680310.536503'
+EPOCHSECONDS='1658680310'
 HOSTTYPE='x86_64'
 HOST_PATH='/nix/store/2ph85rmc3j8n5k679y4zp0qvqzrmwwkn-nodejs-16.15.0/bin:/nix/store/w5rcr96wmn506nb8l8q23zvn4j9h3fj7-yarn-1.22.19/bin:/nix/store/08bxdvjmyjdqbmcj172jsx5m2xqipf5k-prisma-4.0.0/bin:/nix/store/l2xyarvzahpz3fysr9hqbvcsgv5gnrnk-coreutils-9.1/bin:/nix/store/ip1zdc23sqyq15957lbjrxj31m5xh72c-findutils-4.9.0/bin:/nix/store/fagksixa18rdzwhm7mnwzdp022nrnv5l-diffutils-3.8/bin:/nix/store/l62i4fn54qry9xamnj209wfizpw2bng5-gnused-4.8/bin:/nix/store/1rfvqdj1sc27ckiypcw5hnmfb30paj80-gnugrep-3.7/bin:/nix/store/kd0dqqh4r906b8iwrvim4c0qv3dmamnf-gawk-5.1.1/bin:/nix/store/vq67896gm97w895dv8vj6nyf5313zc58-gnutar-1.34/bin:/nix/store/nkzahhyaf1yb9isqwyfq9n5gxq7civ0z-gzip-1.12/bin:/nix/store/79p6fdmfh5j2xcxhyk8m9sl7adzhkdpq-bzip2-1.0.6.0.2-bin/bin:/nix/store/8q06kxhkl4dq3vjd3ai2j8n9kr26c271-gnumake-4.3/bin:/nix/store/j9rc786ylq8cid4zgcn6idknilkbd4ax-bash-5.1-p16/bin:/nix/store/mfabz5ca7wvfvcrxvn33g8hm5fa3j444-patch-2.7.6/bin:/nix/store/n2rjs5jhndw6xs3nrssnh2s5sqmjwqch-xz-5.2.5-bin/bin:/nix/store/8ira0m19haxn7ivyljszvv0isrx9wajp-file-5.42/bin'
 export HOST_PATH
@@ -125,6 +125,7 @@ declare -a envHostHostHooks=('ccWrapper_addCVars' 'bintoolsWrapper_addLDVars' 'a
 declare -a envHostTargetHooks=('ccWrapper_addCVars' 'bintoolsWrapper_addLDVars' 'addNodePath' )
 declare -a envTargetTargetHooks=()
 declare -a fixupOutputHooks=('if [ -z "${dontPatchELF-}" ]; then patchELF "$prefix"; fi' '_makeSymlinksRelative' 'if [ -z "${dontGzipMan-}" ]; then compressManPages "$prefix"; fi' '_doStrip' 'patchShebangsAuto' '_pruneLibtoolFiles' 'if [[ -z "${noAuditTmpdir-}" && -e "$prefix" ]]; then auditTmpdir "$prefix"; fi' '_moveSystemdUserUnits' '_moveSbin' '_moveLib64' )
+guess='8'
 initialPath='/nix/store/l2xyarvzahpz3fysr9hqbvcsgv5gnrnk-coreutils-9.1 /nix/store/ip1zdc23sqyq15957lbjrxj31m5xh72c-findutils-4.9.0 /nix/store/fagksixa18rdzwhm7mnwzdp022nrnv5l-diffutils-3.8 /nix/store/l62i4fn54qry9xamnj209wfizpw2bng5-gnused-4.8 /nix/store/1rfvqdj1sc27ckiypcw5hnmfb30paj80-gnugrep-3.7 /nix/store/kd0dqqh4r906b8iwrvim4c0qv3dmamnf-gawk-5.1.1 /nix/store/vq67896gm97w895dv8vj6nyf5313zc58-gnutar-1.34 /nix/store/nkzahhyaf1yb9isqwyfq9n5gxq7civ0z-gzip-1.12 /nix/store/79p6fdmfh5j2xcxhyk8m9sl7adzhkdpq-bzip2-1.0.6.0.2-bin /nix/store/8q06kxhkl4dq3vjd3ai2j8n9kr26c271-gnumake-4.3 /nix/store/j9rc786ylq8cid4zgcn6idknilkbd4ax-bash-5.1-p16 /nix/store/mfabz5ca7wvfvcrxvn33g8hm5fa3j444-patch-2.7.6 /nix/store/n2rjs5jhndw6xs3nrssnh2s5sqmjwqch-xz-5.2.5-bin /nix/store/8ira0m19haxn7ivyljszvv0isrx9wajp-file-5.42'
 name='nix-shell'
 export name
