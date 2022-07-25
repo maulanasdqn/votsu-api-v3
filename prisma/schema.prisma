@@ -11,19 +11,43 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  fullname String? 
-  email String @unique
-  student_id String? @unique
-  grade String?
+  id          Int      @id @default(autoincrement())
+  fullname    String?
+  email       String   @unique
+  student_id  String?  @unique
+  grade       String?
   departement String?
-  role_id Int?
-  hash String
-  hashedRt String?
-  is_chosen Boolean?
+  role_id     Int?
+  hash        String
+  hashedRt    String?
+  is_chosen   Boolean?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  Elections Elections[]
   @@map("users")
+}
+
+model Candidate {
+  id          Int     @id @default(autoincrement())
+  fullname    String?
+  email       String  @unique
+  student_id  String? @unique
+  grade       String?
+  departement String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Elections Elections[]
+  @@map("candidate")
+}
+
+model Elections {
+  id           Int        @id @default(autoincrement())
+  user_id      Int @unique
+  candidate_id Int
+  user         User?      @relation(fields: [user_id], references: [id])
+  candidate    Candidate? @relation(fields: [candidate_id], references: [id])
 }
