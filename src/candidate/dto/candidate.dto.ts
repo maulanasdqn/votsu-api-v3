@@ -1,8 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-
 export class CandidateDto {
-  @IsNotEmpty()
-  @IsString()
   email: string;
 
   id: number;
@@ -14,4 +10,6 @@ export class CandidateDto {
   grade: string;
 
   departement: string;
+
+  image: string;
 }

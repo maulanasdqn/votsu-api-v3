@@ -49,16 +49,53 @@ export class AuthService {
     return tokens;
   }
 
+  async generateCrew(): Promise<Tokens> {
+    const userEmail = await this.prisma.user.findUnique({
+      where: {
+        email: process.env.CREW_EMAIL,
+      },
+    });
+
+    const userStudentId = await this.prisma.user.findUnique({
+      where: {
+        student_id: process.env.CREW_STUDENT_ID,
+      },
+    });
+
+    if (userStudentId && userEmail) {
+      throw new ForbiddenException('Email and Student Id Already Exist.');
+    } else if (userEmail) {
+      throw new ForbiddenException('Email Already Exist.');
+    } else if (userStudentId) {
+      throw new ForbiddenException('Student Id Already Exist.');
+    }
+
+    const hash = await this.hashData(process.env.CREW_PASSWORD);
+    const newUser = await this.prisma.user.create({
+      data: {
+        fullname: "Panitia Pemilihan",
+        email: process.env.CREW_EMAIL,
+        hash,
+        student_id: process.env.CREW_STUDENT_ID,
+        role_id: 2,
+      },
+    });
+
+    const tokens = await this.getTokens(newUser.id, newUser.email);
+    await this.updateRtHash(newUser.id, tokens.refresh_token);
+    return tokens;
+  }
+
   async loginLocal(dto: AuthDto): Promise<Tokens> {
     const user = await this.prisma.user.findUnique({
       where: {
         email: dto.email,
       },
     });
-    if (!user) throw new ForbiddenException('Access Denied.');
+    if (!user) throw new ForbiddenException('Email Not Found.');
 
     const passwordMatches = await brcrypt.compare(dto.password, user.hash);
-    if (!passwordMatches) throw new ForbiddenException('Access Denied.');
+    if (!passwordMatches) throw new ForbiddenException('Wrong Password.');
 
     const tokens = await this.getTokens(user.id, user.email);
     await this.updateRtHash(user.id, tokens.refresh_token);

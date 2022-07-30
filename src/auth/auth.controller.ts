@@ -28,6 +28,13 @@ export class AuthController {
   }
 
   @Public()
+  @Post("crew/generate")
+  @HttpCode(HttpStatus.CREATED)
+  crewGenerator(): Promise<Tokens> {
+    return this.authService.generateCrew();
+  }
+
+  @Public()
   @Post("local/login")
   @HttpCode(HttpStatus.OK)
   loginLocal(@Body() dto: AuthDto): Promise<Tokens> {

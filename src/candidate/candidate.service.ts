@@ -1,4 +1,9 @@
-import { ForbiddenException, Injectable } from "@nestjs/common";
+import {
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+  NotFoundException,
+} from "@nestjs/common";
 import { CandidateDto } from "./dto";
 import { PrismaService } from "src/prisma/prisma.service";
 
@@ -15,8 +20,19 @@ export class CandidateService {
       },
     });
     if (!candidate) throw new ForbiddenException("Access Denied.");
-    if (!candidate) throw new ForbiddenException("Access Denied.");
-    return candidate;
+    return candidate.map((x) => {
+      return {
+        id: x.id,
+        fullname: x.fullname,
+        grade: x.grade,
+        department: x.departement,
+        student_id: x.student_id,
+        image: x.image,
+        vision: x.vision,
+        mission: x.mission,
+        voted: x._count.Elections,
+      };
+    });
   }
 
   async getCandidateById(id: number) {
@@ -24,29 +40,79 @@ export class CandidateService {
       where: {
         id,
       },
+      include: {
+        _count: {
+          select: {
+            Elections: true,
+          },
+        },
+      },
     });
-    if (!candidate) throw new ForbiddenException("Access Denied.");
-    return candidate;
+    if (!candidate) throw new NotFoundException("Candidate Not Found.");
+    const data = [];
+    data.push(candidate);
+    return data.map((x) => {
+      return {
+        id: x.id,
+        fullname: x.fullname,
+        grade: x.grade,
+        department: x.departement,
+        student_id: x.student_id,
+        image: x.image,
+        vision: x.vision,
+        mission: x.mission,
+        voted: x._count.Elections,
+      };
+    });
   }
 
-  async updateCandidateById(dto: CandidateDto, id: number) {
+  async updateCandidateById(dto: CandidateDto, id: number, userId: number) {
+    const isCrew = await this.prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        role_id: true,
+      },
+    });
+    if (isCrew.role_id == 1)
+      throw new UnauthorizedException(
+        "Only Crew is Allowed to Edit Candidate."
+      );
     const candidate = await this.prisma.candidate.update({
       where: {
         id,
       },
       data: {
-        email: dto.email,
-        student_id: dto.student_id,
         fullname: dto.fullname,
         departement: dto.departement,
         grade: dto.grade,
+        image: dto.image,
       },
     });
     if (!candidate) throw new ForbiddenException("Access Denied.");
-    return candidate;
+    return {
+      data: {
+        code: 201,
+        message: "Success Update Candidate",
+        candidate,
+      },
+    };
   }
 
-  async createCandidate(dto: CandidateDto) {
+  async createCandidate(dto: CandidateDto, userId: number) {
+    const isCrew = await this.prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        role_id: true,
+      },
+    });
+    if (isCrew.role_id == 1)
+      throw new UnauthorizedException(
+        "Only Crew is Allowed to Create Candidate."
+      );
     const candidateEmail = await this.prisma.candidate.findUnique({
       where: {
         email: dto.email,
@@ -67,7 +133,7 @@ export class CandidateService {
       throw new ForbiddenException("Student Id Already Exist.");
     }
 
-    const newCandidate = await this.prisma.candidate.create({
+    await this.prisma.candidate.create({
       data: {
         fullname: dto.fullname,
         email: dto.email,
@@ -77,6 +143,9 @@ export class CandidateService {
       },
     });
 
-    return newCandidate;
+    return {
+      code: 200,
+      message: "Success Create Candidate",
+    };
   }
 }
