@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialActions"]
 }
 
 datasource db {
@@ -18,6 +19,7 @@ model User {
   grade       String?
   departement String?
   role_id     Int?
+  role        Role?    @relation(fields: [role_id], references: [id], onDelete: Cascade)
   hash        String
   hashedRt    String?
   is_chosen   Boolean?
@@ -29,13 +31,23 @@ model User {
   @@map("users")
 }
 
+model Role {
+  id        Int     @id @default(autoincrement())
+  role_name String?
+  User User[]
+  @@map("roles")
+}
+
 model Candidate {
   id          Int     @id @default(autoincrement())
   fullname    String?
   email       String  @unique
+  image       String?
   student_id  String? @unique
   grade       String?
   departement String?
+  vision      String?
+  mission     String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -46,8 +58,8 @@ model Candidate {
 
 model Elections {
   id           Int        @id @default(autoincrement())
-  user_id      Int @unique
+  user_id      Int        @unique
   candidate_id Int
-  user         User?      @relation(fields: [user_id], references: [id])
-  candidate    Candidate? @relation(fields: [candidate_id], references: [id])
+  user         User?      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  candidate    Candidate? @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
 }
