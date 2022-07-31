@@ -10,7 +10,6 @@ COPY package.json ./
 COPY yarn.lock ./
 COPY prisma ./prisma/
 COPY tsconfig.json ./
-COPY .env ./
 
 # Install app dependencies
 RUN yarn
@@ -20,6 +19,7 @@ COPY . .
 RUN yarn build
 
 FROM python:bullseye
+
 FROM node:gallium-alpine AS prod
 
 COPY --from=builder /app/node_modules ./node_modules
