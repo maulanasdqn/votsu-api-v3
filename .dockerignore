@@ -1,0 +1,4 @@
+./node_modules
+./direnv
+./dist
+yarn.log
