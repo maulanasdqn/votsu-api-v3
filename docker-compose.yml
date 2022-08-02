@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   db:
     container_name: votsu-db
@@ -9,13 +9,13 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: votsu-db
     ports:
-      - '5432:5432'
+      - "5432:5432"
 
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
     depends_on:
-      - postgres
+      - db
     ports:
       - "5555:80"
     environment:
@@ -29,15 +29,15 @@ services:
     stdin_open: true
     build:
       context: .
-      dockerfile: 'Dockerfile'
+      dockerfile: "Dockerfile"
       args:
         - DATABASE_URL=${DATABASE_URL}
     container_name: votsu-api-v3
     env_file:
       - .env
     depends_on:
-      - postgres
+      - db
     ports:
-      - '5000:5000'
+      - "5000:5000"
 volumes:
   pgadmin-data:
